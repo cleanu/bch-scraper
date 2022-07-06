@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer')
 
 const getScrapData = async () => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
     await page.goto('https://bitinfocharts.com/top-100-richest-bitcoin%20cash-addresses-1.html');
     
@@ -48,9 +48,11 @@ const getScrapData = async () => {
 
     await browser.close();
 
+    const date = (new Date()).toISOString().slice(0, 10)
+
     return {
-        addressData: [(new Date()).toISOString().slice(0, 10), ...tableData.map(d => d.address)],
-        coinData: [(new Date()).toISOString().slice(0, 10), ...tableData.map(d => d.coin)]
+        addressData: [date, ...tableData.map(d => d.address)],
+        coinData: [date, ...tableData.map(d => d.coin)]
     }
 }
 
