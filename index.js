@@ -30,6 +30,8 @@ const updateSheet = async () => {
     }
 }
 
+updateSheet()
+
 cron.schedule('0 0 * * *', async () => {
     console.log('running every day at 00:00')
     await updateSheet()
